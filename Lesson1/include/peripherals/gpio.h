@@ -22,7 +22,7 @@ struct GpioRegs {
     struct GpioPinData async_re_detect;
     struct GpioPinData async_fe_detect;
     reg32 reserved;
-    reg32 pupd_enable;
+    reg32 pupd_enable; // pull up or pull down
     reg32 pupd_enable_clocks[2];
 };
 
