@@ -1,4 +1,4 @@
-RPI_VERSION ?= 4
+RPI_VERSION ?= 3
 
 BOOTMNT ?= /media/parallels/boot
 
@@ -39,10 +39,10 @@ kernel8.img: $(SRC_DIR)/linker.ld $(OBJ_FILES)
 	@echo ""
 	$(ARMGNU)-ld -T $(SRC_DIR)/linker.ld -o $(BUILD_DIR)/kernel8.elf $(OBJ_FILES)
 	$(ARMGNU)-objcopy $(BUILD_DIR)/kernel8.elf -O binary kernel8.img
-ifeq ($(RPI_VERSION), 4)
-	cp kernel8.img $(BOOTMNT)/kernel8-rpi4.img
-else
-	cp kernel8.img $(BOOTMNT)/
-endif
-	cp config.txt $(BOOTMNT)/
-	sync
+#ifeq ($(RPI_VERSION), 4)
+#	cp kernel8.img $(BOOTMNT)/kernel8-rpi4.img
+#else
+#	cp kernel8.img $(BOOTMNT)/
+#endif
+#	cp config.txt $(BOOTMNT)/
+#	sync

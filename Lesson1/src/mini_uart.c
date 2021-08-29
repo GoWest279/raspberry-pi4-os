@@ -11,8 +11,8 @@ void uart_init() {
     gpio_pin_set_func(RXD, GFAlt5);
      
     // Disable this two function because no corresponding register in PI4
-    //gpio_pin_enable(TXD);
-    //gpio_pin_enable(RXD);
+    gpio_pin_enable(TXD);
+    gpio_pin_enable(RXD);
     
     //If the enable bits are clear you will have no access to a peripheral. 
     // You can not even read or write the registers!
