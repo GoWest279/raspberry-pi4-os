@@ -3,6 +3,7 @@
 // GPIO
 
 enum {
+        PERIPHERAL_BASE = 0x3F000000,
     GPFSEL0         = PERIPHERAL_BASE + 0x200000,
     GPSET0          = PERIPHERAL_BASE + 0x20001C,
     GPCLR0          = PERIPHERAL_BASE + 0x200028,
@@ -93,7 +94,7 @@ enum {
 };
 
 #define AUX_MU_BAUD(baud) ((AUX_UART_CLOCK/(baud*8))-1)
-
+int extern_AUX_MU_IO_REG = AUX_MU_IO_REG;
 unsigned char uart_output_queue[UART_MAX_QUEUE];
 unsigned int uart_output_queue_write = 0;
 unsigned int uart_output_queue_read = 0;

@@ -1,4 +1,4 @@
-#define PERIPHERAL_BASE 0xFE000000
+//#define PERIPHERAL_BASE 0x3F000000
 
 void uart_init();
 void uart_writeText(char *buffer);

@@ -17,3 +17,6 @@ kernel8.img: boot.o $(OFILES)
 
 clean:
 	/bin/rm kernel8.elf *.o *.img > /dev/null 2> /dev/null || true
+
+run:
+	qemu-system-aarch64 -M raspi3 -kernel kernel8.img -serial null -serial stdio
