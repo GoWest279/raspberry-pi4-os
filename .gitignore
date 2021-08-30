@@ -1,0 +1,5 @@
+.vscode/
+*.o
+*.elf
+*.img
+Lesson2-1/
