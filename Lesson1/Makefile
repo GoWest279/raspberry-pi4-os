@@ -1,4 +1,4 @@
-RPI_VERSION ?= 3
+RPI_VERSION ?= 4
 
 BOOTMNT ?= /media/parallels/boot
 
