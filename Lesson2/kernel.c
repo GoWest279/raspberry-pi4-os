@@ -21,17 +21,17 @@ void main()
 
     drawChar('O',500,500,0x05);
     drawString(x_oft, y_oft,"Hello world!",0x0f);
-    y_oft += FONT_HEIGHT; 
-    char msg0 = 't';
-    mmio_write(extern_AUX_MU_IO_REG, (unsigned int)msg0);
+    //y_oft += FONT_HEIGHT; 
+    //char msg0 = 't';
+    //mmio_write(extern_AUX_MU_IO_REG, (unsigned int)msg0);
     //while(1) uart_update();
 
     //char msg0 = 't';
     //uart_send(extern_AUX_MU_IO_REG, msg0);
     drawLine(100,500,350,700,0x0c);
-    char msg;
+    //char msg;
     while (1){
-        if(x_oft >= 1920) {
+/*        if(x_oft >= 1920) {
             x_oft = 0;
             y_oft += FONT_HEIGHT;
         }
@@ -52,6 +52,6 @@ void main()
         else{
             x_oft += (FONT_WIDTH + 1);
         }
-
+*/
     }
 }
