@@ -16,8 +16,9 @@ SRC_DIR = src
 all : kernel8.img
 
 clean :
-	rm -rf $(BUILD_DIR) *.img 
-
+	rm -rf $(BUILD_DIR) *.img dump.txt
+dump:
+	aarch64-none-linux-gnu-objdump build/kernel8.elf -d > dump.txt
 $(BUILD_DIR)/%_c.o: $(SRC_DIR)/%.c
 	mkdir -p $(@D)
 	$(ARMGNU)-gcc -g $(COPS) -MMD -c $< -o $@

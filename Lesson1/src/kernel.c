@@ -18,13 +18,60 @@ int itoa(u32 res, char *msg){
     uart_send_string("\n"); 
     return 1;
 }
-void test_func(int run) {
+void test_func_sys_timer(int run) {
+    int n = 2056;
+    u32 res = 0;
+
+    u32 timer_h0 = get32(0xFe003008);
+    u32 timer_l0 = get32(0xFe003004);
+    // for(int ii = 0 ; ii < n; ii++)
+    //     res += ii;
+    asm("nop"); 
+    u32 timer_l1 = get32(0xFe003004);
+    u32 timer_h1 = get32(0xFe003008);
+
+
+    itoa(res, "Results: Sys timer");
+    itoa(timer_l0, "Timer low start:");    
+    itoa(timer_h0, "Timer high start:");    
+    itoa(timer_l1, "Timer low end:");    
+    itoa(timer_h1, "Timer high end:");  
+    itoa(timer_l1 - timer_l0, "Execution time:");
+
+}
+void test_func_arm_timer(int run) {
+    int n = 2056;
+    u32 res = 0;
+    put32(0xFe00b408, 0);
+    //put32(0xFe00b41c, 0);
+    put32(0xFe00b408, 0x003e0200);
+    u32 timer_l0 = get32(0xFe00b420);
+    // for(int ii = 0 ; ii < n; ii++)
+    //     res += ii; 
+    asm volatile("nop");
+    u32 timer_l1 = get32(0xFe00b420);
+put32(0xFe00b408, 0);
+
+    itoa(res, "Results: ARM ");
+    itoa(timer_l0, "Timer low start:");    
+    itoa(timer_l1, "Timer high end:");  
+    itoa(timer_l1 - timer_l0, "Execution time:");
+
+}
+
+void test_func_nop(int run) {
     int n = 2056;
     u32 res = 0;
     u32 timer_h0 = get32(0xFe003008);
     u32 timer_l0 = get32(0xFe003004);
-    for(int ii = 0 ; ii < n; ii++)
-        res += ii; 
+    //for(int ii = 0 ; ii < n; ii++)
+    //    res += ii; 
+    asm("nop");
+    // asm("nop");
+    // asm("nop");
+    // asm("nop");
+    // asm("nop");
+    // asm("nop");
     u32 timer_l1 = get32(0xFe003004);
     u32 timer_h1 = get32(0xFe003008);
 
@@ -37,7 +84,6 @@ void test_func(int run) {
     itoa(timer_l1 - timer_l0, "Execution time:");
 
 }
-
 void kernel_main() {
     uart_init();
     uart_send_string("Rasperry UART initialize done\n");
@@ -52,10 +98,14 @@ void kernel_main() {
 #endif
 
     //uart_send_string("\n\nDone1\n");
-    for(int ii =0; ii < 20; ii++) {
-        test_func(ii);
+    for(int ii =0; ii < 2; ii++) {
+        test_func_sys_timer(ii);
+        //test_func_arm_timer(ii);
     } 
-    
+    for(int ii =0; ii < 2; ii++) {
+      //  test_func_sys_timer(ii);
+        test_func_arm_timer(ii);
+    }
     //uart_send_string("\ttestcfvfdvdf\n");
 
     
