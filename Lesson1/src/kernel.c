@@ -1,5 +1,6 @@
 #include "common.h"
 #include "mini_uart.h"
+#include "utils.h"
 // #include <stdlib.h>
 // #include <string.h>
 // #include <stdio.h>
@@ -19,18 +20,13 @@ int itoa(u32 res, char *msg){
     return 1;
 }
 void test_func_sys_timer(int run) {
-    int n = 2056;
+    //int n = 2056;
     u32 res = 0;
-
     u32 timer_h0 = get32(0xFe003008);
     u32 timer_l0 = get32(0xFe003004);
-    // for(int ii = 0 ; ii < n; ii++)
-    //     res += ii;
     asm("nop"); 
     u32 timer_l1 = get32(0xFe003004);
     u32 timer_h1 = get32(0xFe003008);
-
-
     itoa(res, "Results: Sys timer");
     itoa(timer_l0, "Timer low start:");    
     itoa(timer_h0, "Timer high start:");    
@@ -40,7 +36,7 @@ void test_func_sys_timer(int run) {
 
 }
 void test_func_arm_timer(int run) {
-    int n = 2056;
+    //int n = 2056;
     u32 res = 0;
     put32(0xFe00b408, 0);
     //put32(0xFe00b41c, 0);
@@ -50,8 +46,7 @@ void test_func_arm_timer(int run) {
     //     res += ii; 
     asm volatile("nop");
     u32 timer_l1 = get32(0xFe00b420);
-put32(0xFe00b408, 0);
-
+    put32(0xFe00b408, 0);
     itoa(res, "Results: ARM ");
     itoa(timer_l0, "Timer low start:");    
     itoa(timer_l1, "Timer high end:");  
@@ -60,7 +55,7 @@ put32(0xFe00b408, 0);
 }
 
 void test_func_nop(int run) {
-    int n = 2056;
+    //int n = 2056;
     u32 res = 0;
     u32 timer_h0 = get32(0xFe003008);
     u32 timer_l0 = get32(0xFe003004);
@@ -96,7 +91,11 @@ void kernel_main() {
 #if RPI_VERSION == 4
     uart_send_string("\tBoard: Raspberry PI 4\n");
 #endif
-
+    //get counter frequency
+    register unsigned int freq;
+    asm volatile("mrs %0, cntfrq_el0":"=r"(freq));
+    asm volatile("msr cntfrq_el0, x0");
+    itoa(freq, "system frequency:");
     //uart_send_string("\n\nDone1\n");
     for(int ii =0; ii < 2; ii++) {
         test_func_sys_timer(ii);
@@ -108,7 +107,7 @@ void kernel_main() {
     }
     //uart_send_string("\ttestcfvfdvdf\n");
 
-    
+    uart_send_string("Finish profiling\n");    
     while(1) {
         uart_send(uart_recv());
     }
